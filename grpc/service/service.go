@@ -44,7 +44,12 @@ func (s *service) Create(ctx context.Context, req *bs.Book) (*bs.Book, error) {
 }
 
 func (s *service) GetById(ctx context.Context, req *bs.Id) (*bs.Book, error) {
-	return nil, nil
+	resp, err := s.strg.Service_I().GetById(ctx, req)
+	if err != nil {
+		s.log.Error("Get Book by given id", logger.Error(err))
+		return nil, err
+	}
+	return resp, nil
 }
 
 func (s *service) Update(ctx context.Context, req *bs.Id) (*bs.Book, error) {

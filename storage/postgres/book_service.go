@@ -24,7 +24,20 @@ func (r *serviceRepo) GetAll(ctx context.Context, req *bs.GetAllRequest) (*bs.Bo
 }
 
 func (r *serviceRepo) GetById(ctx context.Context, req *bs.Id) (*bs.Book, error) {
-	return nil, nil
+	var resp bs.Book
+	getBookByIdQuery := `SELECT * FROM books WHERE id=$1`
+	row := r.db.QueryRow(ctx, getBookByIdQuery, req.Id)
+	err := row.Scan(
+		&resp.Id,
+		&resp.Name,
+		&resp.Author,
+		&resp.Price,
+		&resp.CategoryId,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("error while scanning book %w", err)
+	}
+	return &resp, nil
 }
 
 func (r *serviceRepo) Create(ctx context.Context, req *bs.Book) (res *bs.Id, err error) {
