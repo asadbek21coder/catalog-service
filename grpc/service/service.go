@@ -27,6 +27,9 @@ func NewServiceServer(cfg config.Config, log logger.LoggerI, strg storage.Storag
 func (s *service) GetAll(ctx context.Context, req *pb.GetAllRequest) (*pb.Books, error) {
 	return nil, nil
 }
+func (s *service) Create(ctx context.Context, req *pb.Book) (*pb.Book, error) {
+	return nil, nil
+}
 
 func (s *service) GetById(ctx context.Context, req *pb.Id) (*pb.Book, error) {
 	return nil, nil

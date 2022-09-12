@@ -5,6 +5,7 @@ option go_package="genproto/book_service";
 
 service Service {
     rpc GetAll (GetAllRequest) returns (Books) {}
+    rpc Create (Book) returns (Book) {}
     rpc GetById (Id) returns (Book) {}
     rpc Update (Id) returns (Book) {}
     rpc Delete (Id) returns (Id) {}
