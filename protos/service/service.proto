@@ -1,0 +1,32 @@
+syntax="proto3";
+
+package service;
+option go_package="genproto/book_service";
+
+service Service {
+    rpc GetAll (GetAllRequest) returns (Books) {}
+    rpc GetById (Id) returns (Book) {}
+    rpc Update (Id) returns (Book) {}
+    rpc Delete (Id) returns (Id) {}
+}
+
+message Book {
+    int32 id = 1;
+    string name = 2;
+    int32 category_id = 3;
+    string author = 4;
+    int32 price = 5;
+}
+message Id {
+    int32 id = 1;
+}
+
+message Books {
+    repeated Book books = 1;
+}
+
+message GetAllRequest {
+    int32 limit = 1;
+    int32 offset = 2;
+    string search = 3;
+}
