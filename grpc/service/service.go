@@ -25,7 +25,12 @@ func NewServiceServer(cfg config.Config, log logger.LoggerI, strg storage.Storag
 }
 
 func (s *service) GetAll(ctx context.Context, req *bs.GetAllRequest) (*bs.Books, error) {
-	return nil, nil
+	resp, err := s.strg.Service_I().GetAll(ctx, req)
+	if err != nil {
+		s.log.Error("Get all books", logger.Error(err))
+		return nil, err
+	}
+	return resp, nil
 }
 func (s *service) Create(ctx context.Context, req *bs.Book) (*bs.Book, error) {
 	resp, err := s.strg.Service_I().Create(ctx, req)
@@ -52,8 +57,13 @@ func (s *service) GetById(ctx context.Context, req *bs.Id) (*bs.Book, error) {
 	return resp, nil
 }
 
-func (s *service) Update(ctx context.Context, req *bs.Id) (*bs.Book, error) {
-	return nil, nil
+func (s *service) Update(ctx context.Context, req *bs.Book) (*bs.Book, error) {
+	resp, err := s.strg.Service_I().Update(ctx, req)
+	if err != nil {
+		s.log.Error("Update Book", logger.Error(err))
+		return nil, err
+	}
+	return resp, nil
 }
 
 func (s *service) Delete(ctx context.Context, req *bs.Id) (*bs.Id, error) {

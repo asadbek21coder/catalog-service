@@ -7,7 +7,7 @@ service Service {
     rpc GetAll (GetAllRequest) returns (Books) {}
     rpc Create (Book) returns (Book) {}
     rpc GetById (Id) returns (Book) {}
-    rpc Update (Id) returns (Book) {}
+    rpc Update (Book) returns (Book) {}
     rpc Delete (Id) returns (Id) {}
 }
 
@@ -24,6 +24,7 @@ message Id {
 
 message Books {
     repeated Book books = 1;
+    int32 count = 2;
 }
 
 message GetAllRequest {

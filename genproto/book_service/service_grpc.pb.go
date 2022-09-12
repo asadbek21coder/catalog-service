@@ -25,7 +25,7 @@ type ServiceClient interface {
 	GetAll(ctx context.Context, in *GetAllRequest, opts ...grpc.CallOption) (*Books, error)
 	Create(ctx context.Context, in *Book, opts ...grpc.CallOption) (*Book, error)
 	GetById(ctx context.Context, in *Id, opts ...grpc.CallOption) (*Book, error)
-	Update(ctx context.Context, in *Id, opts ...grpc.CallOption) (*Book, error)
+	Update(ctx context.Context, in *Book, opts ...grpc.CallOption) (*Book, error)
 	Delete(ctx context.Context, in *Id, opts ...grpc.CallOption) (*Id, error)
 }
 
@@ -64,7 +64,7 @@ func (c *serviceClient) GetById(ctx context.Context, in *Id, opts ...grpc.CallOp
 	return out, nil
 }
 
-func (c *serviceClient) Update(ctx context.Context, in *Id, opts ...grpc.CallOption) (*Book, error) {
+func (c *serviceClient) Update(ctx context.Context, in *Book, opts ...grpc.CallOption) (*Book, error) {
 	out := new(Book)
 	err := c.cc.Invoke(ctx, "/service.Service/Update", in, out, opts...)
 	if err != nil {
@@ -89,7 +89,7 @@ type ServiceServer interface {
 	GetAll(context.Context, *GetAllRequest) (*Books, error)
 	Create(context.Context, *Book) (*Book, error)
 	GetById(context.Context, *Id) (*Book, error)
-	Update(context.Context, *Id) (*Book, error)
+	Update(context.Context, *Book) (*Book, error)
 	Delete(context.Context, *Id) (*Id, error)
 	mustEmbedUnimplementedServiceServer()
 }
@@ -107,7 +107,7 @@ func (UnimplementedServiceServer) Create(context.Context, *Book) (*Book, error) 
 func (UnimplementedServiceServer) GetById(context.Context, *Id) (*Book, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetById not implemented")
 }
-func (UnimplementedServiceServer) Update(context.Context, *Id) (*Book, error) {
+func (UnimplementedServiceServer) Update(context.Context, *Book) (*Book, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
 }
 func (UnimplementedServiceServer) Delete(context.Context, *Id) (*Id, error) {
@@ -181,7 +181,7 @@ func _Service_GetById_Handler(srv interface{}, ctx context.Context, dec func(int
 }
 
 func _Service_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Id)
+	in := new(Book)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -193,7 +193,7 @@ func _Service_Update_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: "/service.Service/Update",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(ServiceServer).Update(ctx, req.(*Id))
+		return srv.(ServiceServer).Update(ctx, req.(*Book))
 	}
 	return interceptor(ctx, in, info, handler)
 }
