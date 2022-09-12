@@ -15,4 +15,5 @@ type Service_I interface {
 	GetById(ctx context.Context, req *pb.Id) (*pb.Book, error)
 	Update(ctx context.Context, req *pb.Id) (*pb.Id, error)
 	Delete(ctx context.Context, req *pb.Id) (*pb.Id, error)
+	Create(ctx context.Context, req *pb.Book) (*pb.Id, error)
 }

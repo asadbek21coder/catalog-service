@@ -75,7 +75,7 @@ func Load() Config {
 	config.PasscodeLength = cast.ToInt(getOrReturnDefaultValue("PASSCODE_LENGTH", "6"))
 
 	config.ServiceHost = cast.ToString(getOrReturnDefaultValue("SERVICE_HOST", "0.0.0.0"))
-	config.GRPCPort = cast.ToString(getOrReturnDefaultValue("GRPC_PORT", ":9102"))
+	config.GRPCPort = cast.ToString(getOrReturnDefaultValue("GRPC_PORT", ":9101"))
 
 	config.PostgresMaxConnections = cast.ToInt(getOrReturnDefaultValue("POSTGRES_MAX_CONNECTIONS", 5))
 

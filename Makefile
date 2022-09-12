@@ -20,21 +20,21 @@ gen-proto-module:
 	./scripts/gen_proto.sh ${CURRENT_DIR}
 
 migration-up:
-	migrate -path ./migrations/postgres -database 'postgres://postgres:admin1234@0.0.0.0:5432/position_service?sslmode=disable' up
+	migrate -path ./schema -database 'postgres://postgres:asadbek33@localhost:5432/catalog?sslmode=disable' up
 
 migration-down:
-	migrate -path ./migrations/postgres -database 'postgres://postgres:admin1234@0.0.0.0:5432/position_service?sslmode=disable' down
+	migrate -path ./schema -database 'postgres://postgres:asadbek33@localhost:5432/catalog?sslmode=disable' down
 
 build:
 	CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -installsuffix cgo -o ${CURRENT_DIR}/bin/${APP} ${APP_CMD_DIR}/main.go
 
-build-image:
-	docker build --rm -t ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} .
-	docker tag ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} ${REGISTRY}/${PROJECT_NAME}/${APP}:${ENV_TAG}
+# build-image:
+# 	docker build --rm -t ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} .
+# 	docker tag ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} ${REGISTRY}/${PROJECT_NAME}/${APP}:${ENV_TAG}
 
-push-image:
-	docker push ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG}
-	docker push ${REGISTRY}/${PROJECT_NAME}/${APP}:${ENV_TAG}
+# push-image:
+# 	docker push ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG}
+# 	docker push ${REGISTRY}/${PROJECT_NAME}/${APP}:${ENV_TAG}
 
 swag-init:
 	swag init -g api/api.go -o api/docs

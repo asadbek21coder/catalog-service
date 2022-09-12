@@ -2,8 +2,9 @@ package postgres
 
 import (
 	"context"
+	"fmt"
 
-	pb "github.com/asadbek21coder/catalog/service/genproto/book_service"
+	bs "github.com/asadbek21coder/catalog/service/genproto/book_service"
 	"github.com/asadbek21coder/catalog/service/storage"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
@@ -18,19 +19,35 @@ func NewServiceRepo(db *pgxpool.Pool) storage.Service_I {
 	}
 }
 
-func (r *serviceRepo) GetAll(ctx context.Context, req *pb.GetAllRequest) (*pb.Books, error) {
+func (r *serviceRepo) GetAll(ctx context.Context, req *bs.GetAllRequest) (*bs.Books, error) {
 	return nil, nil
 }
 
-func (r *serviceRepo) GetById(ctx context.Context, req *pb.Id) (*pb.Book, error) {
+func (r *serviceRepo) GetById(ctx context.Context, req *bs.Id) (*bs.Book, error) {
 	return nil, nil
 }
-func (r *serviceRepo) Create(ctx context.Context, req *pb.Book) (*pb.Book, error) {
+
+func (r *serviceRepo) Create(ctx context.Context, req *bs.Book) (res *bs.Id, err error) {
+	createBookQuery := `INSERT INTO books (name,author,category, price) values ($1,$2,$3,$4) returning id`
+	row := r.db.QueryRow(ctx, createBookQuery, req.Name, req.Author, req.CategoryId, req.Price)
+	if err != nil {
+		return nil, fmt.Errorf("error while getting rows %w", err)
+	}
+
+	var Id bs.Id
+	err = row.Scan(
+		&Id.Id,
+	)
+	if err != nil {
+		return nil, fmt.Errorf("error while scanning book err: %w", err)
+	}
+	res = &Id
+	return res, nil
+}
+
+func (r *serviceRepo) Update(ctx context.Context, req *bs.Id) (*bs.Id, error) {
 	return nil, nil
 }
-func (r *serviceRepo) Update(ctx context.Context, req *pb.Id) (*pb.Id, error) {
-	return nil, nil
-}
-func (r *serviceRepo) Delete(ctx context.Context, req *pb.Id) (*pb.Id, error) {
+func (r *serviceRepo) Delete(ctx context.Context, req *bs.Id) (*bs.Id, error) {
 	return nil, nil
 }
