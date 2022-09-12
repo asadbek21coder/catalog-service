@@ -57,5 +57,10 @@ func (s *service) Update(ctx context.Context, req *bs.Id) (*bs.Book, error) {
 }
 
 func (s *service) Delete(ctx context.Context, req *bs.Id) (*bs.Id, error) {
-	return nil, nil
+	id, err := s.strg.Service_I().Delete(ctx, req)
+	if err != nil {
+		s.log.Error("Delete Book by given id", logger.Error(err))
+		return nil, err
+	}
+	return &bs.Id{Id: id}, nil
 }

@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	bs "github.com/asadbek21coder/catalog/service/genproto/book_service"
@@ -61,6 +62,15 @@ func (r *serviceRepo) Create(ctx context.Context, req *bs.Book) (res *bs.Id, err
 func (r *serviceRepo) Update(ctx context.Context, req *bs.Id) (*bs.Id, error) {
 	return nil, nil
 }
-func (r *serviceRepo) Delete(ctx context.Context, req *bs.Id) (*bs.Id, error) {
-	return nil, nil
+func (r *serviceRepo) Delete(ctx context.Context, req *bs.Id) (int32, error) {
+	deleteBookQuery := `DELETE FROM books WHERE id=$1`
+	row, err := r.db.Exec(ctx, deleteBookQuery, req.Id)
+	if err != nil {
+		return 0, fmt.Errorf("error while deleting book err: %w", err)
+	}
+	err = errors.New("no book with such id")
+	if row.RowsAffected() == 0 {
+		return 0, fmt.Errorf("err: %w", err)
+	}
+	return req.Id, nil
 }
