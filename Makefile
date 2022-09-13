@@ -25,8 +25,8 @@ migration-up:
 migration-down:
 	migrate -path ./schema -database 'postgres://postgres:asadbek33@localhost:5432/catalog?sslmode=disable' down
 
-build:
-	CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -installsuffix cgo -o ${CURRENT_DIR}/bin/${APP} ${APP_CMD_DIR}/main.go
+# build:
+# 	CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -installsuffix cgo -o ${CURRENT_DIR}/bin/${APP} ${APP_CMD_DIR}/main.go
 
 # build-image:
 # 	docker build --rm -t ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG} .
@@ -36,8 +36,6 @@ build:
 # 	docker push ${REGISTRY}/${PROJECT_NAME}/${APP}:${TAG}
 # 	docker push ${REGISTRY}/${PROJECT_NAME}/${APP}:${ENV_TAG}
 
-swag-init:
-	swag init -g api/api.go -o api/docs
 
 run:
 	go run cmd/main.go

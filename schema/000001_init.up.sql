@@ -11,3 +11,5 @@ create table "books" (
     "price" int not null,
     primary key("name", "author")
 );
+
+INSERT INTO "book_categories" (name) VALUES ('detective'), ('romance'), ('poetry'), ('adventure');
