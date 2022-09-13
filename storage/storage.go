@@ -16,4 +16,10 @@ type Service_I interface {
 	Update(ctx context.Context, req *bs.Book) (*bs.Book, error)
 	Delete(ctx context.Context, req *bs.Id) (int32, error)
 	Create(ctx context.Context, req *bs.Book) (*bs.Id, error)
+
+	GetAllCategories(ctx context.Context, req *bs.GetAllRequest) (*bs.Categories, error)
+	GetCategoryById(ctx context.Context, req *bs.Id) (*bs.Category, error)
+	UpdateCategory(ctx context.Context, req *bs.Category) (*bs.Category, error)
+	DeleteCategory(ctx context.Context, req *bs.Id) (int32, error)
+	CreateCategory(ctx context.Context, req *bs.Category) (*bs.Id, error)
 }
